@@ -3,6 +3,7 @@ from channels.generic.websocket import WebsocketConsumer
 import json
 from chat.core.models.user import User
 from chat.core.models.message import Message
+from . import bot
 
 
 class ChatConsumer(WebsocketConsumer):
@@ -30,13 +31,31 @@ class ChatConsumer(WebsocketConsumer):
     def new_message(self, data):
         author = data['from']
         text = data['text']
-        author_user, created = User.objects.get_or_create(username=author)
-        message = Message.objects.create(author=author_user, content=text)
-        content = {
-            'command': 'new_message',
-            'message': self.message_to_json(message)
-        }
-        self.send_chat_message(content)
+        if text[:6] != '/stock':
+            author_user, created = User.objects.get_or_create(username=author)
+            message = Message.objects.create(author=author_user, content=text)
+            content = {
+                'command': 'new_message',
+                'message': self.message_to_json(message)
+            }
+            self.send_chat_message(content)
+        else:
+            author_user = User(username=author)
+            message = Message(author=author_user, content=text)
+            content = {
+                'command': 'new_message',
+                'message': self.message_to_json(message)
+            }
+            self.send_chat_message(content)
+
+            author_user = User(username='bot')
+            text = bot.get_stock_quote(stock_code=text[7:])
+            message = Message(author=author_user, content=text)
+            content = {
+                'command': 'new_message',
+                'message': self.message_to_json(message)
+            }
+            self.send_chat_message(content)
 
     def messages_to_json(self, messages):
         result = []
