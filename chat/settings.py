@@ -79,9 +79,11 @@ WSGI_APPLICATION = 'chat.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'DATABASE_URL': 'postgres:///real_time_chat',
         'ATOMIC_REQUESTS': True,
-        'NAME': 'real_time_chat'
+        'NAME': 'real_time_chat',
+        'USER': 'postgres',
+        'PASSWORD': 'example',
+        'HOST': '127.0.0.1'
     }
 }
 
