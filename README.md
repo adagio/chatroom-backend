@@ -22,10 +22,9 @@ https://gist.github.com/adagio/76a2c54bddb229029df5bd3eb8feea92
 
 ## API Application
 
-# Activate your venv
+```Activate your venv```
 
 ```pip install -r requirements.txt```
-
 
 # Could be necessary to run makemigrations
 
