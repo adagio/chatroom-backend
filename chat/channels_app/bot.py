@@ -10,7 +10,10 @@ def get_stock_quote(stock_code):
             f = StringIO(response.text)
             cr = csv.DictReader(f)
             row = next(cr)
-            return '{} quote is {} per share'.format(row['Symbol'], row['Close'])
+            if (row['Date'] == 'N/D' and row['Close'] == 'N/D'):
+                return f"stock_code {stock_code} is not defined"
+            else:
+                return '{} quote is {} per share'.format(row['Symbol'], row['Close'])
         except:
             pass
     return "Oh, You misspelled somewhere!"
