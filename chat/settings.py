@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'chat.wsgi.application'
 # DATABASE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
-DATABASES = {
+""" DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'ATOMIC_REQUESTS': True,
@@ -84,6 +84,12 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'example',
         'HOST': '127.0.0.1'
+    }
+} """
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
