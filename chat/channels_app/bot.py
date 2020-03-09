@@ -1,6 +1,7 @@
 import requests
 from io import StringIO
 import csv
+import sys
 
 
 def get_stock_quote(stock_code):
@@ -13,7 +14,15 @@ def get_stock_quote(stock_code):
             if (row['Date'] == 'N/D' and row['Close'] == 'N/D'):
                 return f"stock_code {stock_code} is not defined"
             else:
-                return '{} quote is {} per share'.format(row['Symbol'], row['Close'])
+                return f"{row['Symbol']} quote is {row['Close']} per share"
+        except requests.exceptions.Timeout as err:
+            # Maybe set up for a retry, or continue in a retry loop
+            print(f"Timeout: {err}")
+            return "Request timeout has ocurred"
+        except requests.exceptions.RequestException as err:
+            print(f"Connection Error: {err}")
+            return "There was a connection error"
         except:
-            pass
+            print("Unexpected error:", sys.exc_info()[0])
+            return "Unexpected Error"
     return "Oh, You misspelled somewhere!"
